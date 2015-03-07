@@ -1,0 +1,34 @@
+#ifndef __buffer_reader__
+#define __buffer_reader__
+
+#include <cstdint>
+#include <string>
+
+class buffer;
+class buffer_writer;
+
+class buffer_reader
+{
+public:
+    typedef std::size_t size_type;
+    typedef uint8_t value_type;
+
+    explicit buffer_reader(const buffer& buffer);
+
+    size_type advance(size_type size);
+	size_type read(void* data, size_type size);
+	size_type read(buffer_writer& writer, size_type size);
+	size_type read(buffer& out, size_type size);
+    size_type read(std::string& s, char end='\n');
+    bool end() const;
+    size_type pos() const;
+
+private:
+    const buffer& _buffer;
+    size_type _pos;
+
+    size_type adjust_size(size_type size) const;
+};
+
+
+#endif
