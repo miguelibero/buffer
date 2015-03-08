@@ -211,16 +211,13 @@ buffer::size_type buffer::size() const
     return _size;
 }
 
-bool buffer::size(size_type s)
+void buffer::size(size_type s)
 {
-    bool r(false);
-
     if(_capacity < s)
     {
-        r = capacity(s);
+        capacity(s);
     }
     _size = s;
-    return r;
 }
 
 buffer::size_type buffer::capacity() const
@@ -228,16 +225,16 @@ buffer::size_type buffer::capacity() const
     return _capacity;
 }
 
-bool buffer::capacity(size_type c)
+void buffer::capacity(size_type c)
 {
-    if (_capacity >= c)
-    {
-        return false;
-    }
-
     value_type* d(new value_type[c]);
 
-    if (_size != 0)
+    if(_size > c)
+    {
+        _size = c;
+    }
+
+    if(_size != 0)
     {
         std::memcpy(d, _data, _size);
     }
@@ -245,8 +242,6 @@ bool buffer::capacity(size_type c)
     delete[] _data;
     _data = d;
     _capacity = c;
-
-    return true;
 }
 
 bool buffer::empty() const

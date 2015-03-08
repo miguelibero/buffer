@@ -36,9 +36,9 @@ public:
     void fill(value_type value = 0);
 
     size_type size() const;
-    bool size(size_type);
+    void size(size_type);
     size_type capacity() const;
-    bool capacity(size_type);
+    void capacity(size_type);
     bool empty() const;
     void clear();
 

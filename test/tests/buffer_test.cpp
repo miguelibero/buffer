@@ -211,15 +211,13 @@ TEST(buffer, fill) {
 TEST(buffer, size) {
 
     buffer b(3);
-    bool success = b.size(10);
+    b.size(10);
 
-    ASSERT_TRUE(success);
     ASSERT_EQ(b.size(), static_cast<buffer::size_type>(10));
     ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(10));
 
-    success = b.size(2);
+    b.size(2);
 
-    ASSERT_FALSE(success);
     ASSERT_EQ(b.size(), static_cast<buffer::size_type>(2));
     ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(10));
 }
@@ -227,17 +225,15 @@ TEST(buffer, size) {
 TEST(buffer, capacity) {
 
     buffer b(3);
-    bool success = b.capacity(10);
+    b.capacity(10);
 
-    ASSERT_TRUE(success);
     ASSERT_EQ(b.size(), static_cast<buffer::size_type>(3));
     ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(10));
 
-    success = b.capacity(2);
+    b.capacity(2);
 
-    ASSERT_FALSE(success);
-    ASSERT_EQ(b.size(), static_cast<buffer::size_type>(3));
-    ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(10));
+    ASSERT_EQ(b.size(), static_cast<buffer::size_type>(2));
+    ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(2));
 }
 
 TEST(buffer, empty) {
