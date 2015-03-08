@@ -22,17 +22,18 @@ file(GLOB_RECURSE BUFFER_SOURCES
 )
 
 add_library(buffer ${BUFFER_SOURCES})
+include_directories("src")
 
-set(BUFFER_TESTS_DIR "test/tests")
-file(GLOB_RECURSE BUFFER_TESTS
-    "${BUFFER_TESTS_DIR}/*.cpp"
-)
-
-add_subdirectory("lib/gtest")
-enable_testing()
-include_directories("src" "test")
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR} ${CURL_INCLUDE_DIR})
-add_executable(runUnitTests ${BUFFER_TESTS})
-target_link_libraries(buffer ${CURL_LIBRARY})
-target_link_libraries(runUnitTests buffer gtest gtest_main)
-add_test(runUnitTests runUnitTests)
+if(EXISTS "lib/gtest")
+    set(BUFFER_TESTS_DIR "test/tests")
+    file(GLOB_RECURSE BUFFER_TESTS
+        "${BUFFER_TESTS_DIR}/*.cpp"
+    )
+    add_subdirectory("lib/gtest")
+    enable_testing()
+    include_directories("test")
+    include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+    add_executable(runUnitTests ${BUFFER_TESTS})
+    target_link_libraries(runUnitTests buffer gtest gtest_main)
+    add_test(runUnitTests runUnitTests)
+endif(EXISTS "lib/gtest")
