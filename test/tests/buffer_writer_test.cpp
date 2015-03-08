@@ -39,8 +39,8 @@ TEST(buffer_writer, write_value) {
     buffer b;
     buffer_writer w(b);
 
-    w.write('a', 4);
-    w.write(0);
+    w.fill('a', 4);
+    w.fill(0);
 
     ASSERT_EQ(b.size(), static_cast<buffer_writer::size_type>(5));
     ASSERT_EQ(b.capacity(), static_cast<buffer_writer::size_type>(5));
@@ -56,7 +56,7 @@ TEST(buffer_writer, write_buffer) {
     buffer in("hellohello", 11); 
 
     writer.write(in, 5);
-    writer.write(0);
+    writer.fill(0);
 
     ASSERT_EQ(out.size(), static_cast<buffer_writer::size_type>(6));
     ASSERT_EQ(out.capacity(), static_cast<buffer_writer::size_type>(6));
@@ -89,7 +89,7 @@ TEST(buffer_writer, write_string) {
 
     writer.write("lala");
     writer.write("lolo");
-    writer.write(0);
+    writer.fill(0);
 
     ASSERT_STREQ(reinterpret_cast<const char*>(out.data()), "lalalolo");
     ASSERT_EQ(out.capacity(), static_cast<buffer_reader::size_type>(9));
