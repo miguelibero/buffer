@@ -249,6 +249,11 @@ bool buffer::empty() const
     return _size == 0;
 }
 
+bool buffer::binary() const
+{
+    return find(0) != npos;
+}
+
 void buffer::clear()
 {
     _size = 0;

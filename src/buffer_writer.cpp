@@ -31,7 +31,7 @@ buffer_writer::size_type buffer_writer::advance(size_type size)
     return size;
 }
 
-buffer_writer::size_type buffer_writer::write(value_type value, size_type size)
+buffer_writer::size_type buffer_writer::fill(value_type value, size_type size)
 {
     size = fit(size);
     std::memset(&_buffer.at(_pos), value, size);
@@ -47,13 +47,17 @@ buffer_writer::size_type buffer_writer::write(const void* in, size_type size)
     return size;
 }
 
-buffer_writer::size_type buffer_writer::write(const buffer& in, size_type size)
+buffer_writer::size_type buffer_writer::write(const buffer& in, size_type size, size_type pos)
 {
-    if(size > in.size())
+    if(size == -1)
     {
         size = in.size();
     }
-    return write(in.data(), size);
+    if(pos + size > in.size())
+    {
+        size = in.size() - pos;
+    }
+    return write(&in.at(pos), size);
 }
 
 buffer_writer::size_type buffer_writer::write(buffer_reader& in, size_type size)

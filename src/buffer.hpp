@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <initializer_list>
+#include <vector>
 
 class buffer
 {
@@ -20,6 +21,9 @@ public:
 
     template<typename T>
     buffer(std::initializer_list<T> list);
+
+    template<typename T>
+    buffer(const std::vector<T>& list);
 
     buffer(const buffer& other);
     buffer(buffer&& other);
@@ -41,6 +45,7 @@ public:
     void capacity(size_type);
     bool empty() const;
     void clear();
+    bool binary() const;
 
     value_type* data();
     const value_type* data() const;
@@ -64,6 +69,13 @@ buffer::buffer(std::initializer_list<T> list):
 _data(nullptr), _size(0), _capacity(0)
 {
     assign(list.begin(), sizeof(T)*list.size());
+}
+
+template<typename T>
+buffer::buffer(const std::vector<T>& list):
+_data(nullptr), _size(0), _capacity(0)
+{
+    assign(list.data(), sizeof(T)*list.size());
 }
 
 bool operator==(const buffer& a, const buffer& b);
