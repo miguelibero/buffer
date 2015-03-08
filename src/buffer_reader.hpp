@@ -16,18 +16,20 @@ public:
     explicit buffer_reader(const buffer& buffer);
 
     size_type advance(size_type size);
-	size_type read(void* data, size_type size);
-	size_type read(buffer_writer& writer, size_type size);
+	size_type read(void* out, size_type size);
+	size_type read(buffer_writer& out, size_type size);
 	size_type read(buffer& out, size_type size);
-    size_type read(std::string& s, char end='\n');
+    size_type read(std::string& out, char end='\n');
+
     bool end() const;
     size_type pos() const;
+    size_type size() const;
 
 private:
     const buffer& _buffer;
     size_type _pos;
 
-    size_type adjust_size(size_type size) const;
+    size_type fit(size_type size) const;
 };
 
 

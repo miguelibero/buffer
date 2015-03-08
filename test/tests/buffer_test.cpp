@@ -17,7 +17,6 @@ TEST(buffer, constructor2) {
 
     ASSERT_EQ(b.size(), static_cast<buffer::size_type>(43));
     ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(100));
-
 }
 
 TEST(buffer, constructor3) {
@@ -29,7 +28,6 @@ TEST(buffer, constructor3) {
     ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(5));
 }
 
-
 TEST(buffer, constructor4) {
 
     buffer b("test", 5, 10);
@@ -37,6 +35,15 @@ TEST(buffer, constructor4) {
     ASSERT_STREQ(reinterpret_cast<const char*>(b.data()), "test");
     ASSERT_EQ(b.size(), static_cast<buffer::size_type>(5));
     ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(10));
+}
+
+
+TEST(buffer, initializer_list) {
+
+    buffer b({'t', 'e', 's', 't', '\0'});
+    ASSERT_STREQ(reinterpret_cast<const char*>(b.data()), "test");
+    ASSERT_EQ(b.size(), static_cast<buffer::size_type>(5));
+    ASSERT_EQ(b.capacity(), static_cast<buffer::size_type>(5));
 }
 
 TEST(buffer, copy_constructor) {

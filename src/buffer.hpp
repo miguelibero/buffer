@@ -2,6 +2,7 @@
 #define __buffer__
 
 #include <cstdint>
+#include <initializer_list>
 
 class buffer
 {
@@ -16,6 +17,9 @@ public:
     buffer(size_type size, size_type capacity);
     buffer(const void* data, size_type size);
     buffer(const void* data, size_type size, size_type capacity);
+
+    template<typename T>
+    buffer(std::initializer_list<T> list);
 
     buffer(const buffer& other);
     buffer(buffer&& other);
@@ -54,6 +58,13 @@ private:
     size_type _size;
     size_type _capacity;
 };
+
+template<typename T>
+buffer::buffer(std::initializer_list<T> list):
+_data(nullptr), _size(0), _capacity(0)
+{
+    assign(list.begin(), sizeof(T)*list.size());
+}
 
 bool operator==(const buffer& a, const buffer& b);
 bool operator!=(const buffer& a, const buffer& b);

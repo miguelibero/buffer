@@ -293,7 +293,7 @@ const buffer::value_type& buffer::at(size_type i) const
 {
     if (i >= _size)
     {
-        throw std::out_of_range ("index out of range");
+        throw std::out_of_range("index out of range");
     }
 
     return _data[i];

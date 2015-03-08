@@ -1,5 +1,6 @@
 
 #include "buffer_reader.hpp"
+#include "buffer_writer.hpp"
 #include "buffer.hpp"
 #include <cstring>
 
@@ -8,7 +9,7 @@ _buffer(buffer), _pos(0)
 {
 }
 
-buffer_reader::size_type buffer_reader::adjust_size(size_type size) const
+buffer_reader::size_type buffer_reader::fit(size_type size) const
 {
     if(_pos + size > _buffer.size())
     {
@@ -19,38 +20,38 @@ buffer_reader::size_type buffer_reader::adjust_size(size_type size) const
 
 buffer_reader::size_type buffer_reader::advance(size_type size)
 {
-    size = adjust_size(size);
+    size = fit(size);
     _pos += size;
     return size;
 }
 
-buffer_reader::size_type buffer_reader::read(void* data, size_type size)
+buffer_reader::size_type buffer_reader::read(void* out, size_type size)
 {
-    size = adjust_size(size);
-    std::memcpy(data, &_buffer.at(_pos), size);
+    size = fit(size);
+    std::memcpy(out, &_buffer.at(_pos), size);
     _pos += size;
     return size;
 }
 
-buffer_reader::size_type buffer_reader::read(buffer_writer& writer, size_type size)
+buffer_reader::size_type buffer_reader::read(buffer_writer& out, size_type size)
 {
-    size = adjust_size(size);
-    // TODO
+    size = fit(size);
+    out.write(&_buffer.at(_pos), size);
     _pos += size;
     return size;
 }
 
 buffer_reader::size_type buffer_reader::read(buffer& out, size_type size)
 {
-    size = adjust_size(size);
+    size = fit(size);
     out.assign(&_buffer.at(_pos), size);
     _pos += size;
     return size;
 }
 
-buffer_reader::size_type buffer_reader::read(std::string& s, char end)
+buffer_reader::size_type buffer_reader::read(std::string& s, char endchr)
 {
-    size_type endpos = _buffer.find(end, _pos);
+    size_type endpos = _buffer.find(endchr, _pos);
     if(endpos == buffer::npos)
     {
         endpos = _buffer.empty() ? 0 : _buffer.size() - 1;
@@ -58,16 +59,27 @@ buffer_reader::size_type buffer_reader::read(std::string& s, char end)
     size_type size = endpos - _pos;
     auto ptr = reinterpret_cast<const char*>(&_buffer.at(_pos));
     s = std::string(ptr, size);
+    _pos += size;
+    if(!end())
+    {
+        size++;
+        _pos++;
+    }
     return size;
 }
 
 bool buffer_reader::end() const
 {
-    return _pos >= _buffer.size();
+    return _pos >= size();
 }
 
 buffer_reader::size_type buffer_reader::pos() const
 {
     return _pos;
+}
+
+buffer_reader::size_type buffer_reader::size() const
+{
+    return _buffer.size();
 }
 
