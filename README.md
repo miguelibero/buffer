@@ -16,8 +16,7 @@ b.capacity(); // 43
 b.data(); // pointer to the data
 ```
 
-There are additional `buffer_reader` and `buffer_writer` classes to read and
-write buffers.
+Use a `buffer_reader` to read from a buffer.
 
 ```c++
 buffer b("first line\nsecond line");
@@ -28,3 +27,13 @@ reader.read(line); // will write "first line" into string
 reader.read(line); // will write "second line" into string
 ```
 
+Use a `buffer_writer` to write to the buffer.
+
+```c++
+buffer b;
+buffer_writer writer(b);
+
+writer.write({1, 2, 3});
+```
+
+Check the header files and the unit tests to se the available methods.
