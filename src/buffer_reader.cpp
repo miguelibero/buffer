@@ -28,24 +28,33 @@ buffer_reader::size_type buffer_reader::advance(size_type size)
 buffer_reader::size_type buffer_reader::read(void* out, size_type size)
 {
     size = fit(size);
-    std::memcpy(out, &_buffer.at(_pos), size);
-    _pos += size;
+    if(size > 0)
+    {
+        std::memcpy(out, &_buffer.at(_pos), size);
+        _pos += size;
+    }
     return size;
 }
 
 buffer_reader::size_type buffer_reader::read(buffer_writer& out, size_type size)
 {
     size = fit(size);
-    out.write(&_buffer.at(_pos), size);
-    _pos += size;
+    if(size > 0)
+    {
+        out.write(&_buffer.at(_pos), size);
+        _pos += size;
+    }
     return size;
 }
 
 buffer_reader::size_type buffer_reader::read(buffer& out, size_type size)
 {
     size = fit(size);
-    out.assign(&_buffer.at(_pos), size);
-    _pos += size;
+    if(size > 0)
+    {
+        out.assign(&_buffer.at(_pos), size);
+        _pos += size;
+    }
     return size;
 }
 
@@ -57,13 +66,16 @@ buffer_reader::size_type buffer_reader::read(std::string& s, char endchr)
         endpos = _buffer.empty() ? 0 : _buffer.size() - 1;
     }
     size_type size = endpos - _pos;
-    auto ptr = reinterpret_cast<const char*>(&_buffer.at(_pos));
-    s = std::string(ptr, size);
-    _pos += size;
-    if(!end())
+    if(size > 0)
     {
-        size++;
-        _pos++;
+        auto ptr = reinterpret_cast<const char*>(&_buffer.at(_pos));
+        s = std::string(ptr, size);
+        _pos += size;
+        if(!end())
+        {
+            size++;
+            _pos++;
+        }
     }
     return size;
 }
