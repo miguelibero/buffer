@@ -17,10 +17,10 @@ public:
     explicit buffer_writer(buffer& buffer, bool fit=false);
 
     size_type advance(size_type size);
-	size_type fill(value_type value, size_type size=1);
-	size_type write(const void* in, size_type size);
-	size_type write(const buffer& in, size_type size=-1, size_type pos=0);
-	size_type write(buffer_reader& in, size_type size);
+    size_type fill(value_type value, size_type size=1);
+    size_type write(const void* in, size_type size);
+    size_type write(const buffer& in, size_type size=-1, size_type pos=0);
+    size_type write(buffer_reader& in, size_type size);
     size_type write(const std::string& in);
 
     template<typename T>

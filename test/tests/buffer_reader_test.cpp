@@ -53,7 +53,7 @@ TEST(buffer_reader, read_buffer) {
 
 TEST(buffer_reader, read_string) {
 
-    buffer b("lala\nlolo\nli", 13);
+    buffer b("lala\nlolo\nli\n\n", 14);
     buffer_reader r(b);
     std::string str;
 
@@ -69,9 +69,12 @@ TEST(buffer_reader, read_string) {
     ASSERT_EQ(s, static_cast<buffer_reader::size_type>(3));
     ASSERT_STREQ(str.c_str(), "li");
 
-    s = r.read(str);
-    ASSERT_EQ(s, static_cast<buffer_reader::size_type>(0));
-    ASSERT_STREQ(str.c_str(), "");
+    for(int i=0; i<10; ++i)
+    {
+        s = r.read(str);
+        ASSERT_EQ(s, static_cast<buffer_reader::size_type>(0));
+        ASSERT_STREQ(str.c_str(), "");
+    }
 }
 
 TEST(buffer_reader, read_writer) {

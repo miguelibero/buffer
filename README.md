@@ -1,10 +1,7 @@
 Buffer
 ======
 
-A C++11 class to maintain binary data.
-
-The code is based on this implementation:
-http://www.codesynthesis.com/~boris/blog/2011/08/09/do-we-need-std-buffer/
+A C++11 class to maintain binary data. I was always writing a class like this for each project I did, so I thought I would do it once and for all. The code is based on [this implementation](http://www.codesynthesis.com/~boris/blog/2011/08/09/do-we-need-std-buffer/).
 
 A `buffer` object maintains a pointer, a size and a capacity.
 
@@ -16,8 +13,7 @@ b.capacity(); // 43
 b.data(); // pointer to the data
 ```
 
-There are additional `buffer_reader` and `buffer_writer` classes to read and
-write buffers.
+Use a `buffer_reader` to read from a buffer.
 
 ```c++
 buffer b("first line\nsecond line");
@@ -28,3 +24,13 @@ reader.read(line); // will write "first line" into string
 reader.read(line); // will write "second line" into string
 ```
 
+Use a `buffer_writer` to write to the buffer.
+
+```c++
+buffer b;
+buffer_writer writer(b);
+
+writer.write({1, 2, 3});
+```
+
+Check the header files and the unit tests to se the available methods.

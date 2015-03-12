@@ -16,9 +16,9 @@ public:
     explicit buffer_reader(const buffer& buffer);
 
     size_type advance(size_type size);
-	size_type read(void* out, size_type size);
-	size_type read(buffer_writer& out, size_type size);
-	size_type read(buffer& out, size_type size);
+    size_type read(void* out, size_type size);
+    size_type read(buffer_writer& out, size_type size);
+    size_type read(buffer& out, size_type size);
     size_type read(std::string& out, char end='\n');
 
     bool end() const;
