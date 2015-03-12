@@ -65,6 +65,11 @@ buffer_reader::size_type buffer_reader::read(std::string& s, char endchr)
     {
         endpos = _buffer.empty() ? 0 : _buffer.size() - 1;
     }
+    if(_pos >= endpos)
+    {
+        s = std::string();
+        return 0;
+    }
     size_type size = endpos - _pos;
     if(size > 0)
     {

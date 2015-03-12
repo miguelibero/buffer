@@ -68,6 +68,10 @@ TEST(buffer_reader, read_string) {
     s = r.read(str);
     ASSERT_EQ(s, static_cast<buffer_reader::size_type>(3));
     ASSERT_STREQ(str.c_str(), "li");
+
+    s = r.read(str);
+    ASSERT_EQ(s, static_cast<buffer_reader::size_type>(0));
+    ASSERT_STREQ(str.c_str(), "");
 }
 
 TEST(buffer_reader, read_writer) {
