@@ -3,11 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 if(MSVC)
     set(CMAKE_CXX_FLAGS_INIT "${CMAKE_CXX_FLAGS_INIT} /WX:NO /MTd")
 else()
-	ADD_DEFINITIONS(
-	    -std=c++0x
-	    -Wall
-	    -Wno-unknown-pragmas
-	)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wno-unknown-pragmas")
 endif(MSVC)
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
