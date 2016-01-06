@@ -15,15 +15,16 @@ public:
     ~buffer();
 
     explicit buffer(size_type size = 0);
+    explicit buffer(const char* str);
     buffer(size_type size, size_type capacity);
     buffer(const void* data, size_type size);
     buffer(const void* data, size_type size, size_type capacity);
 
     template<typename T>
-    buffer(std::initializer_list<T> list);
+    explicit buffer(std::initializer_list<T> list);
 
     template<typename T>
-    buffer(const std::vector<T>& list);
+    explicit buffer(const std::vector<T>& list);
 
     buffer(const buffer& other);
     buffer(buffer&& other);

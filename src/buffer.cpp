@@ -19,6 +19,12 @@ _data(nullptr), _size(s), _capacity(s)
     }
 }
 
+buffer::buffer(const char* str):
+_data(nullptr), _size(0), _capacity(0)
+{
+    assign(str, std::strlen(str));
+}
+
 buffer::buffer(size_type s, size_type c):
 _data(nullptr), _size(s), _capacity(c)
 {
