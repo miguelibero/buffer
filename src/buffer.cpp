@@ -25,6 +25,12 @@ _data(nullptr), _size(0), _capacity(0)
     assign(str, std::strlen(str));
 }
 
+buffer::buffer(const std::string& str):
+_data(nullptr), _size(0), _capacity(0)
+{
+    assign(str.c_str(), str.length());
+}
+
 buffer::buffer(size_type s, size_type c):
 _data(nullptr), _size(s), _capacity(c)
 {
@@ -275,6 +281,21 @@ const buffer::value_type* buffer::data() const
     return _data;
 }
 
+char* buffer::c_str()
+{
+    return reinterpret_cast<char*>(data());
+}
+
+const char* buffer::c_str() const
+{
+    return reinterpret_cast<const char*>(data());
+}
+
+std::string buffer::str() const
+{
+    return std::string(c_str(), _size > 0 ? _size-1 : 0);
+}
+
 buffer::value_type& buffer::operator[](size_type i)
 {
     return _data[i];
@@ -354,4 +375,3 @@ bool operator!=(const buffer& a, const buffer& b)
 {
   return !(a == b);
 }
-

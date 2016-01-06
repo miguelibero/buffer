@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <initializer_list>
 #include <vector>
+#include <string>
 
 class buffer
 {
@@ -16,6 +17,7 @@ public:
 
     explicit buffer(size_type size = 0);
     explicit buffer(const char* str);
+    explicit buffer(const std::string& str);
     buffer(size_type size, size_type capacity);
     buffer(const void* data, size_type size);
     buffer(const void* data, size_type size, size_type capacity);
@@ -50,6 +52,10 @@ public:
 
     value_type* data();
     const value_type* data() const;
+
+    char* c_str();
+    const char* c_str() const;
+    std::string str() const;
 
     value_type& operator[](size_type);
     const value_type& operator[](size_type) const;

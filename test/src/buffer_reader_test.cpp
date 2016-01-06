@@ -39,15 +39,15 @@ TEST_CASE("read_buffer", "[buffer_reader]")
 
 	auto s = r.read(c, 4);
 	REQUIRE(s == 4);
-	REQUIRE(strcmp(reinterpret_cast<const char*>(c.data()), "lala") == 0);
+	REQUIRE(strcmp(c.c_str(), "lala") == 0);
 
 	s = r.read(c, 4);
 	REQUIRE(s == 4);
-	REQUIRE(strcmp(reinterpret_cast<const char*>(c.data()), "lolo") == 0);
+	REQUIRE(strcmp(c.c_str(), "lolo") == 0);
 
 	s = r.read(c, 4);
 	REQUIRE(s == 3);
-	REQUIRE(strcmp(reinterpret_cast<const char*>(c.data()), "li") == 0);
+	REQUIRE(strcmp(c.c_str(), "li") == 0);
 }
 
 TEST_CASE("read_string", "[buffer_reader]")
@@ -87,7 +87,7 @@ TEST_CASE("read_writer", "[buffer_reader]")
 	reader.advance(5);
 	auto s = reader.read(writer, 5);
 	REQUIRE(s == 3);
-	REQUIRE(strcmp(reinterpret_cast<const char*>(out.data()), "lala\nli") == 0);
+	REQUIRE(strcmp(out.c_str(), "lala\nli") == 0);
 	REQUIRE(out.capacity() == 8);
 	REQUIRE(out.size() == 8);
 }

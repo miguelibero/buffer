@@ -23,7 +23,7 @@ TEST_CASE("constructor3", "[buffer]")
 {
     buffer b("test", 5);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "test") == 0);
+	REQUIRE(strcmp(b.c_str(), "test") == 0);
 	REQUIRE(b.size() == 5);
 	REQUIRE(b.capacity() == 5);
 }
@@ -32,7 +32,7 @@ TEST_CASE("constructor4", "[buffer]")
 {
     buffer b("test", 5, 10);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "test") == 0);
+	REQUIRE(strcmp(b.c_str(), "test") == 0);
 	REQUIRE(b.size() == 5);
 	REQUIRE(b.capacity() == 10);
 }
@@ -40,7 +40,7 @@ TEST_CASE("constructor4", "[buffer]")
 TEST_CASE("initializer_list", "[buffer]")
 {
     buffer b({'t', 'e', 's', 't', '\0'});
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "test") == 0);
+	REQUIRE(strcmp(b.c_str(), "test") == 0);
 	REQUIRE(b.size() == 5);
 	REQUIRE(b.capacity() == 5);
 }
@@ -50,7 +50,7 @@ TEST_CASE("copy_constructor", "[buffer]")
     buffer b("test", 5, 10);
     buffer c(b);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(c.data()), "test") == 0);
+	REQUIRE(strcmp(c.c_str(), "test") == 0);
 	REQUIRE(c.size() == 5);
 	REQUIRE(c.capacity() == 10);
 	REQUIRE(c == b);
@@ -62,7 +62,7 @@ TEST_CASE("move_constructor", "[buffer]")
     auto ptr = b.data();
     buffer c(std::move(b));
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(c.data()), "test") == 0);
+	REQUIRE(strcmp(c.c_str(), "test") == 0);
 	REQUIRE(c.size() == 5);
 	REQUIRE(c.capacity() == 10);
 	REQUIRE(b.size() == 0);
@@ -76,7 +76,7 @@ TEST_CASE("copy_assign", "[buffer]")
     buffer c;
     c = b;
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(c.data()), "test") == 0);
+	REQUIRE(strcmp(c.c_str(), "test") == 0);
 	REQUIRE(c.size() == 5);
 	REQUIRE(c.capacity() == 10);
 	REQUIRE(c == b);
@@ -89,7 +89,7 @@ TEST_CASE("move_assign", "[buffer]")
     buffer c;
     c = std::move(b);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(c.data()), "test") == 0);
+	REQUIRE(c.str() == "test");
 	REQUIRE(c.size() == 5);
 	REQUIRE(c.capacity() == 10);
 	REQUIRE(b.size() == 0);
@@ -105,7 +105,7 @@ TEST_CASE("swap", "[buffer]")
     auto cptr = c.data();
     b.swap(c);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(c.data()), "test") == 0);
+	REQUIRE(strcmp(c.c_str(), "test") == 0);
 	REQUIRE(c.size() == 5);
 	REQUIRE(c.capacity() == 10);
 	REQUIRE(b.size() == 6);
@@ -134,10 +134,10 @@ TEST_CASE("assign", "[buffer]")
     auto ptr = "test";
     b.assign(ptr, 5);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "test") == 0);
+	REQUIRE(strcmp(b.c_str(), "test") == 0);
 	REQUIRE(b.size() == 5);
 	REQUIRE(b.capacity() == 5);
-	REQUIRE(ptr != reinterpret_cast<const char*>(b.data()));
+	REQUIRE(ptr != b.c_str());
 }
 
 TEST_CASE("append_with_capacity", "[buffer]")
@@ -145,7 +145,7 @@ TEST_CASE("append_with_capacity", "[buffer]")
     buffer b("test", 4, 20);
     b.append("test2", 6);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "testtest2") == 0);
+	REQUIRE(strcmp(b.c_str(), "testtest2") == 0);
 	REQUIRE(b.size() == 10);
 	REQUIRE(b.capacity() == 20);
 }
@@ -155,7 +155,7 @@ TEST_CASE("append_without_capacity", "[buffer]")
     buffer b("test", 4);
     b.append("test2", 6);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "testtest2") == 0);
+	REQUIRE(strcmp(b.c_str(), "testtest2") == 0);
 	REQUIRE(b.size() == 10);
 	REQUIRE(b.capacity() == 10);
 
@@ -167,7 +167,7 @@ TEST_CASE("append_buffer_with_capacity", "[buffer]")
     buffer c("test2", 6, 20);
     b.append(c);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "testtest2") == 0);
+	REQUIRE(strcmp(b.c_str(), "testtest2") == 0);
 	REQUIRE(b.size() == 10);
 	REQUIRE(b.capacity() == 20);
 
@@ -179,7 +179,7 @@ TEST_CASE("append_buffer_without_capacity", "[buffer]")
     buffer c("test2", 6, 20);
     b.append(c);
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "testtest2") == 0);
+	REQUIRE(strcmp(b.c_str(), "testtest2") == 0);
 	REQUIRE(b.size() == 10);
 	REQUIRE(b.capacity() == 10);
 
@@ -191,7 +191,7 @@ TEST_CASE("append_buffer_move", "[buffer]")
     buffer c("test2", 6, 20);
     b.append(std::move(c));
 
-	REQUIRE(strcmp(reinterpret_cast<const char*>(b.data()), "test2") == 0);
+	REQUIRE(strcmp(b.c_str(), "test2") == 0);
 	REQUIRE(b.size() == 6);
 	REQUIRE(b.capacity() == 20);
 
