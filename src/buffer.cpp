@@ -281,19 +281,15 @@ const buffer::value_type* buffer::data() const
     return _data;
 }
 
-char* buffer::c_str()
-{
-    return reinterpret_cast<char*>(data());
-}
-
 const char* buffer::c_str() const
 {
-    return reinterpret_cast<const char*>(data());
+	return str().c_str();
 }
 
-std::string buffer::str() const
+const std::string& buffer::str() const
 {
-    return std::string(c_str(), _size > 0 ? _size-1 : 0);
+    _str = std::string(reinterpret_cast<const char*>(data()), _size);
+	return _str;
 }
 
 buffer::value_type& buffer::operator[](size_type i)

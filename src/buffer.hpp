@@ -53,9 +53,8 @@ public:
     value_type* data();
     const value_type* data() const;
 
-    char* c_str();
     const char* c_str() const;
-    std::string str() const;
+    const std::string& str() const;
 
     value_type& operator[](size_type);
     const value_type& operator[](size_type) const;
@@ -69,6 +68,7 @@ private:
     value_type* _data;
     size_type _size;
     size_type _capacity;
+	mutable std::string _str;
 };
 
 template<typename T>
