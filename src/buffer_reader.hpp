@@ -19,7 +19,8 @@ public:
     size_type read(void* out, size_type size);
     size_type read(buffer_writer& out, size_type size);
     size_type read(buffer& out, size_type size);
-    size_type read(std::string& out, char end='\n');
+    size_type readline(std::string& out, char end='\n');
+    size_type readline(const char*& out, char end='\n');
 
     bool end() const;
     size_type pos() const;

@@ -58,29 +58,42 @@ buffer_reader::size_type buffer_reader::read(buffer& out, size_type size)
     return size;
 }
 
-buffer_reader::size_type buffer_reader::read(std::string& s, char endchr)
+buffer_reader::size_type buffer_reader::readline(std::string& s, char endchr)
+{
+    const char* ptr;
+    auto size = readline(ptr, endchr);
+    if(ptr == nullptr)
+    {
+        s.clear();
+    }
+    else
+    {
+        s = std::string(ptr, size);
+    }
+    return size;
+}
+
+buffer_reader::size_type buffer_reader::readline(const char*& out, char endchr)
 {
     size_type endpos = _buffer.find(endchr, _pos);
     if(endpos == buffer::npos)
     {
         endpos = _buffer.empty() ? 0 : _buffer.size() - 1;
     }
-    if(_pos >= endpos)
-    {
-        s = std::string();
-        return 0;
-    }
     size_type size = endpos - _pos;
     if(size > 0)
     {
-        auto ptr = reinterpret_cast<const char*>(&_buffer.at(_pos));
-        s = std::string(ptr, size);
+        out = reinterpret_cast<const char*>(&_buffer.at(_pos));
         _pos += size;
-        if(!end())
-        {
-            size++;
-            _pos++;
-        }
+    }
+    else
+    {
+        size = 0;
+        out = nullptr;
+    }
+    if(!end())
+    {
+        _pos++;
     }
     return size;
 }
@@ -99,4 +112,3 @@ buffer_reader::size_type buffer_reader::size() const
 {
     return _buffer.size();
 }
-
